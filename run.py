@@ -20,21 +20,31 @@ def make_run_cmd(problem):
 def run_problem(problem, languages):
     cmd = make_run_cmd(problem)
     print "{}".format(problem)
-    print "\t{:15}\t{:10}{:10}".format("Language", "Minutes", "Seconds")
+    print "\t{:15}\t{:15}\t{:10}{:10}".format("Language", "Answer", "Minutes", "Seconds")
     results = []
     for language in languages:
         out = subprocess.check_output([cmd], shell=True, cwd=os.path.join(os.getcwd(), language))
         minutes,seconds = get_time(out)
-        results.append((language, minutes, seconds))
+        answer = get_answer(out)
+        results.append((language, minutes, seconds, answer))
 
     results.sort(key=lambda x: (x[1], x[2]))
 
-    for language, minutes,seconds in results:
-        print "\t{:15}\t{:10}{:10}".format(
+    for language,minutes,seconds,answer in results:
+        print "\t{:15}\t{:15}\t{:10}{:10}".format(
             language, 
+            answer,
             minutes,
             seconds
         )
+
+def get_answer(buf):
+    rgx = '^([0-9]+)\n'
+    m = re.search(rgx, buf)
+    if not m:
+        return "No answer"
+    else:
+        return m.group(1)
 
 def get_time(buf):
     rgx = 'real\s+([0-9]+)m([0-9]+\.[0-9]+)s'
