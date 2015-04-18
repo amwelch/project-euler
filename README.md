@@ -4,7 +4,6 @@ A place to keep Project Euler (https://projecteuler.net/) solutions as I experim
 To run the suite and compare performance / correctness across languages you can use run.py:
 ```
 ~/project-euler$ ./run.py 
-Bad problem directory hello-world
 1
 	Language       	Answer         	Minutes   Seconds   
 	go             	233168         	0         0.157     
